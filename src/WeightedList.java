@@ -54,7 +54,7 @@ public class WeightedList<T> implements List<T> {
             return true;
         }
         Integer i = elements.size() - 1;
-        while (i > 0 && getWeight(i) < weight) i--;
+        while (i >= 0 && getWeight(i) <= weight) i--;
         elements.add(i + 1, t);
         return true;
     }
@@ -72,16 +72,15 @@ public class WeightedList<T> implements List<T> {
             return false;
         }
         Integer weight = values.get(t) + amount;
+        values.put(t, weight);
         if (elements.indexOf(t) == 0) {
-            values.put(t, weight);
             return true;
         }
         Integer index = elements.indexOf(t);
         Integer i     = index - 1;
-        while (i >= 0 && values.get(elements.get(i)) < weight) i--;
+        while (i >= 0 && getWeight(i) < weight) i--;
         elements.remove((int) index);
         elements.add(i + 1, t);
-        values.put(t, weight);
         return true;
     }
 
@@ -90,17 +89,16 @@ public class WeightedList<T> implements List<T> {
             return false;
         }
         Integer weight = values.get(t) - amount;
+        values.put(t, weight);
         if (elements.indexOf(t) == elements.size() - 1) {
-            values.put(t, weight);
             return true;
         }
         Integer index = elements.indexOf(t);
         Integer i     = index + 1;
-        Integer last  = elements.size();
-        while (i < last && values.get(elements.get(i)) > weight) i++;
+        Integer size  = elements.size();
+        while (i < size && getWeight(i) > weight) i++;
         elements.add(i, t);
         elements.remove((int) index);
-        values.put(t, weight);
         return true;
     }
 
