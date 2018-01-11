@@ -54,7 +54,7 @@ public class WeightedList<T> implements List<T> {
             return true;
         }
         Integer i = elements.size() - 1;
-        while (i >= 0 && getWeight(i) <= weight) i--;
+        while (i >= 0 && getWeight(i) < weight) i--;
         elements.add(i + 1, t);
         return true;
     }
@@ -158,11 +158,14 @@ public class WeightedList<T> implements List<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
+        Set<T> remove = new HashSet<>();
+
         for (T element : elements) {
             if (!c.contains(element)) {
-                remove(element);
+                remove.add(element);
             }
         }
+        removeAll(remove);
         return true;
     }
 
