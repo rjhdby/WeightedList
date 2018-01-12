@@ -3,6 +3,7 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,13 +20,9 @@ class WeightedListTest {
         list.add("2", 2);
         list.add("5", 5);
         list.add("4", 4);
-//        list.increment("4");
-//        for(String a:list){
-//            System.out.println(a);
-//        }
+
         return list;
     }
-
 
     @Test
     void size() {
@@ -158,7 +155,7 @@ class WeightedListTest {
     @Test
     void setWeight() {
         WeightedList<String> array = filledList();
-        array.setWeight("1", 5);
+        assertTrue(array.setWeight("1", 5));
         assertEquals(5, (int) array.getWeight("1"));
         assertArrayEquals(new String[]{"5", "1", "4", "3", "2"}, array.toArray());
     }
@@ -166,7 +163,7 @@ class WeightedListTest {
     @Test
     void setWeight1() {
         WeightedList<String> array = filledList();
-        array.setWeight(4, 5);
+        assertTrue(array.setWeight(4, 5));
         assertEquals(5, (int) array.getWeight("1"));
         assertArrayEquals(new String[]{"5", "1", "4", "3", "2"}, array.toArray());
     }
@@ -243,10 +240,15 @@ class WeightedListTest {
 
     @Test
     void get() {
+        WeightedList<String> array = filledList();
+        assertEquals("4", array.get(1));
     }
 
     @Test
     void set() {
+        WeightedList<String> array = filledList();
+        assertEquals("5", array.set(0, "10"));
+        assertArrayEquals(new String[]{"4", "3", "2", "1", "10"}, array.toArray());
     }
 
     @Test
@@ -258,22 +260,40 @@ class WeightedListTest {
 
     @Test
     void indexOf() {
+        WeightedList<String> array = filledList();
+        assertEquals(1, array.indexOf("4"));
     }
 
     @Test
     void lastIndexOf() {
+        WeightedList<String> array = filledList();
+        array.add("3");
+        assertEquals(2, array.indexOf("3"));
     }
 
     @Test
     void listIterator() {
+        WeightedList<String> array    = filledList();
+        ListIterator<String> iterator = array.listIterator();
+        iterator.next();
+        assertEquals("4", iterator.next());
+        iterator.previous();
+        assertEquals("5", iterator.previous());
     }
 
     @Test
     void listIterator1() {
+        WeightedList<String> array    = filledList();
+        ListIterator<String> iterator = array.listIterator(2);
+        iterator.next();
+        assertEquals("2", iterator.next());
+        iterator.previous();
+        assertEquals("3", iterator.previous());
     }
 
     @Test
     void subList() {
+        WeightedList<String> array = filledList();
+        assertArrayEquals(new String[]{"4", "3"}, array.subList(1, 3).toArray());
     }
-
 }
