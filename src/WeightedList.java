@@ -180,7 +180,6 @@ public class WeightedList<T> implements List<T> {
         return elements.get(index);
     }
 
-    //todo smell
     @Override
     public T set(int index, T element) {
         T old = elements.get(index);
